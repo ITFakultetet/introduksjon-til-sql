@@ -1,1 +1,2 @@
-# introduksjon-til-sql
+# Introduksjon til SQL
+Kodefiler til boken
