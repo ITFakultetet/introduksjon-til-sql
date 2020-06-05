@@ -1,7 +1,7 @@
 -- Øvelse: list opp ansatte med lønn, snittlønn for alle ansatte og avstand til snittlønn
 -- med en vindusfunksjon
 
-SELECT TOP 1000 
+SELECT TOP 100
     first_name,
     last_name,
     hire_date,
