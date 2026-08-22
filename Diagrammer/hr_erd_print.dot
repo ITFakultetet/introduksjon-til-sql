@@ -1,0 +1,87 @@
+// ERD-diagram over HR-databasen (employees) — trykkversjon
+// Klassisk lærebok-stil med PK/FK-markering og kardinalitet
+digraph HR {
+    rankdir=LR;
+    bgcolor="white";
+    nodesep=0.6;
+    ranksep=1.2;
+    splines=ortho;
+
+    node [shape=plaintext, fontname="Helvetica", fontsize=11];
+    edge [fontname="Helvetica-Oblique", fontsize=10, color="#555555", arrowsize=0.7, arrowhead=none];
+
+    // ============ TABELLER ============
+    employees [label=<
+        <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#D9E2F3" colspan="2"><b>employees</b></td></tr>
+            <tr><td align="left" bgcolor="#F2F2F2"><b>PK</b> emp_no</td><td align="left">INT</td></tr>
+            <tr><td align="left">birth_date</td><td align="left">DATE</td></tr>
+            <tr><td align="left">first_name</td><td align="left">VARCHAR(14)</td></tr>
+            <tr><td align="left">last_name</td><td align="left">VARCHAR(16)</td></tr>
+            <tr><td align="left">gender</td><td align="left">ENUM('M','F')</td></tr>
+            <tr><td align="left">hire_date</td><td align="left">DATE</td></tr>
+        </table>
+    >];
+
+    departments [label=<
+        <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#D9E2F3" colspan="2"><b>departments</b></td></tr>
+            <tr><td align="left" bgcolor="#F2F2F2"><b>PK</b> dept_no</td><td align="left">CHAR(4)</td></tr>
+            <tr><td align="left">dept_name</td><td align="left">VARCHAR(40)</td></tr>
+        </table>
+    >];
+
+    dept_emp [label=<
+        <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#D9E2F3" colspan="2"><b>dept_emp</b></td></tr>
+            <tr><td align="left" bgcolor="#F2F2F2"><b>PK, FK</b> emp_no</td><td align="left">INT</td></tr>
+            <tr><td align="left" bgcolor="#F2F2F2"><b>PK, FK</b> dept_no</td><td align="left">CHAR(4)</td></tr>
+            <tr><td align="left">from_date</td><td align="left">DATE</td></tr>
+            <tr><td align="left">to_date</td><td align="left">DATE</td></tr>
+        </table>
+    >];
+
+    dept_manager [label=<
+        <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#D9E2F3" colspan="2"><b>dept_manager</b></td></tr>
+            <tr><td align="left" bgcolor="#F2F2F2"><b>PK, FK</b> emp_no</td><td align="left">INT</td></tr>
+            <tr><td align="left" bgcolor="#F2F2F2"><b>PK, FK</b> dept_no</td><td align="left">CHAR(4)</td></tr>
+            <tr><td align="left">from_date</td><td align="left">DATE</td></tr>
+            <tr><td align="left">to_date</td><td align="left">DATE</td></tr>
+        </table>
+    >];
+
+    salaries [label=<
+        <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#D9E2F3" colspan="2"><b>salaries</b></td></tr>
+            <tr><td align="left" bgcolor="#F2F2F2"><b>PK, FK</b> emp_no</td><td align="left">INT</td></tr>
+            <tr><td align="left" bgcolor="#F2F2F2"><b>PK</b> from_date</td><td align="left">DATE</td></tr>
+            <tr><td align="left">salary</td><td align="left">INT</td></tr>
+            <tr><td align="left">to_date</td><td align="left">DATE</td></tr>
+        </table>
+    >];
+
+    titles [label=<
+        <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#D9E2F3" colspan="2"><b>titles</b></td></tr>
+            <tr><td align="left" bgcolor="#F2F2F2"><b>PK, FK</b> emp_no</td><td align="left">INT</td></tr>
+            <tr><td align="left" bgcolor="#F2F2F2"><b>PK</b> title</td><td align="left">VARCHAR(50)</td></tr>
+            <tr><td align="left" bgcolor="#F2F2F2"><b>PK</b> from_date</td><td align="left">DATE</td></tr>
+            <tr><td align="left">to_date</td><td align="left">DATE</td></tr>
+        </table>
+    >];
+
+    // ============ RELASJONER (med kardinalitet) ============
+    employees -> dept_emp [label="1"];
+    dept_emp -> employees [label="n"];
+    departments -> dept_emp [label="1"];
+    dept_emp -> departments [label="n"];
+    employees -> dept_manager [label="1"];
+    dept_manager -> employees [label="n"];
+    departments -> dept_manager [label="1"];
+    dept_manager -> departments [label="n"];
+    employees -> salaries [label="1"];
+    salaries -> employees [label="n"];
+    employees -> titles [label="1"];
+    titles -> employees [label="n"];
+}
